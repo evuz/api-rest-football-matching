@@ -1,0 +1,26 @@
+{
+  "name": "rest-full",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesus Gómez",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.3",
+    "crypto": "0.0.3",
+    "express": "^4.14.0",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.17.1",
+    "mongoose": "^4.7.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
