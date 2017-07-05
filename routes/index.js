@@ -18,7 +18,7 @@ api.post('/signup', UserCtrl.signUp);
 api.post('/signin', UserCtrl.signIn);
 api.get('/signin', isAuth, UserCtrl.validateToken);
 api.get('/private', isAuth, function (req, res) {
-    res.status(200).send({ message: 'Tienes acceso' });
+  res.status(200).send({ message: 'Tienes acceso' });
 });
 
 module.exports = api;

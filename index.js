@@ -5,13 +5,16 @@ const app = require('./app');
 
 const config = require('./config');
 
-mongoose.connect(config.db, (err, res) => {
-    if (err) {
-        return console.log(`Error al conectar con la base de datos: ${err}`);
-    }
-    console.log('Conexión a la base de datos realizada');
+mongoose.connect(config.db, (err) => {
+  if (err) {
+    // eslint-disable-next-line
+    return console.error(`Error al conectar con la base de datos: ${err}`);
+  }
+  // eslint-disable-next-line
+  console.log('Conexión a la base de datos realizada');
 
-    app.listen(config.port, () => {
-        console.log(`Servidor iniciado en http://localhost:${config.port}`);
-    })
+  app.listen(config.port, () => {
+    // eslint-disable-next-line
+    console.log(`Servidor iniciado en http://localhost:${config.port}`);
+  })
 });

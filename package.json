@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "lint": "eslint */**.js *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jesus Gómez",
@@ -15,6 +16,7 @@
     "body-parser": "^1.15.2",
     "cors": "^2.8.3",
     "crypto": "0.0.3",
+    "eslint": "^4.1.1",
     "express": "^4.14.0",
     "jwt-simple": "^0.5.1",
     "moment": "^2.17.1",
