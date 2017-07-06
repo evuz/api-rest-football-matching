@@ -7,8 +7,7 @@ function getField(req, res) {
 
   Field.findById(fieldId, (err, field) => {
     if (err) return res.status(500).send({
-      message: `Error al realizar ` +
-      `la petición ${err}`
+      message: `Error al realizar la petición ${err}`
     });
     if (!field) return res.status(404).send({ message: 'El campo no existe' });
 
@@ -19,8 +18,7 @@ function getField(req, res) {
 function getFields(req, res) {
   Field.find({}, (err, field) => {
     if (err) return res.status(500).send({
-      message: `Error al realizar ` +
-      `la petición ${err}`
+      message: `Error al realizar la petición ${err}`
     });
     if (!field) return res.status(404).send({ message: 'El campo no existe' });
 
@@ -39,8 +37,7 @@ function saveField(req, res) {
 
   field.save((err, fieldStored) => {
     if (err) res.status(500).send({
-      message: `Error al` +
-      `guardar en la base de datos ${err}`
+      message: `Error al guardar en la base de datos ${err}`
     })
     res.status(200).send({ field: fieldStored });
   });
@@ -52,8 +49,7 @@ function updateField(req, res) {
 
   Field.findByIdAndUpdate(fieldId, update, (err, fieldUpdate) => {
     if (err) res.status(500).send({
-      message: `Error al` +
-      `actualizar el elemento de la base de datos ${err}`
+      message: `Error al actualizar el elemento de la base de datos ${err}`
     });
     res.status(200).send({ field: fieldUpdate });
   })
@@ -64,13 +60,11 @@ function deleteField(req, res) {
 
   Field.findById(fieldId, (err, field) => {
     if (err) res.status(500).send({
-      message: `Error al` +
-      `obtener el elemento de la base de datos ${err}`
+      message: `Error al obtener el elemento de la base de datos ${err}`
     });
     field.remove(err => {
       if (err) res.status(500).send({
-        message: `Error al` +
-        `borrar el elemento de la base de datos ${err}`
+        message: `Error al borrar el elemento de la base de datos ${err}`
       });
       res.status(200).send({ message: 'Elemento eliminado' });
     })
