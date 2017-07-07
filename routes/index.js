@@ -7,6 +7,7 @@ const FieldCtrl = require('../controllers/field')
 const UserCtrl = require('../controllers/user');
 const MatchCtrl = require('../controllers/match');
 const PlayerCtrl = require('../controllers/player');
+const TeamCtrl = require('../controllers/team');
 
 const { isAuth } = require('../middlewares/auth');
 
@@ -31,6 +32,16 @@ api.post('/player', isAuth, PlayerCtrl.savePlayer);
 api.post('/externalPlayer', PlayerCtrl.savePlayer);
 api.put('/player/:playerId', PlayerCtrl.updatePlayer);
 api.delete('/player/:playerId', PlayerCtrl.deletePlayer);
+
+// Team Routes
+api.get('/team', TeamCtrl.getTeams);
+api.get('/team/:teamId', TeamCtrl.getTeam);
+api.post('/team', TeamCtrl.saveTeam);
+api.put('/team/:teamId', TeamCtrl.updateTeam);
+api.delete('/team/:teamId/:playerId', TeamCtrl.removePlayer);
+api.put('/team/:teamId/:playerId', TeamCtrl.addPlayer);
+// api.put('/team/:teamId', TeamCtrl.updateTeam);
+api.delete('/team/:teamId', TeamCtrl.deleteTeam);
 
 // Routes for manage users
 api.post('/signup', UserCtrl.signUp);
