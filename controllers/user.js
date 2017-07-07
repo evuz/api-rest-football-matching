@@ -40,6 +40,10 @@ function signIn(req, res) {
         message: 'Invalid password'
       }
     })
+    updateUser({
+      userId: user._id,
+      lastLogin: Date.now()
+    })
     res.status(200).send({
       message: 'Succes',
       displayName: user.displayName,
@@ -53,6 +57,10 @@ function validateToken(req, res) {
   const { user } = req;
   User.findById(user, (err, user) => {
     const { displayName, email } = user;
+    updateUser({
+      userId: user._id,
+      lastLogin: Date.now()
+    })
     res.status(200).send({
       message: 'Tienes acceso', user: {
         displayName,
@@ -62,8 +70,35 @@ function validateToken(req, res) {
   })
 }
 
+function updateUser(data) {
+  return new Promise((resolve, reject) => {
+    User.findById(data.userId, (err, user) => {
+      if (err) reject({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      Object.keys(data).forEach(key => {
+        if (key == 'userId') return;
+        user[key] = data[key];
+      })
+      user.save((err, userUpdated) => {
+        if (err) reject({
+          error: {
+            status: 500,
+            message: err
+          }
+        });
+        resolve({ userUpdated })
+      })
+    })
+  })
+}
+
 module.exports = {
   signIn,
   signUp,
-  validateToken
+  validateToken,
+  updateUser
 };
