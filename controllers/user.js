@@ -26,48 +26,58 @@ function signUp(req, res) {
 
 function signIn(req, res) {
   const { email, password } = req.body;
-  User.findOne({ email }, (err, user) => {
-    if (err) return res.status(500).send({ error: err })
-    if (!user) return res.status(404).send({
-      error: {
-        code: 404,
-        message: 'User not found'
-      }
-    });
-    if (!user.validPassword(password)) return res.status(401).send({
-      error: {
-        code: 401,
-        message: 'Invalid password'
-      }
+  User
+    .findOne({ email })
+    .populate('playerId')
+    .exec((err, user) => {
+      if (err) return res.status(500).send({ error: err })
+      if (!user) return res.status(404).send({
+        error: {
+          code: 404,
+          message: 'User not found'
+        }
+      });
+      if (!user.validPassword(password)) return res.status(401).send({
+        error: {
+          code: 401,
+          message: 'Invalid password'
+        }
+      })
+      updateUser({
+        userId: user._id,
+        lastLogin: Date.now()
+      })
+      res.status(200).send({
+        message: 'Succes',
+        user: {
+          displayName: user.displayName,
+          email: user.email,
+          playerId: user.playerId,
+          token: tokenSrv.createToken(user)
+        }
+      })
     })
-    updateUser({
-      userId: user._id,
-      lastLogin: Date.now()
-    })
-    res.status(200).send({
-      message: 'Succes',
-      displayName: user.displayName,
-      email: user.email,
-      token: tokenSrv.createToken(user)
-    })
-  })
 }
 
 function validateToken(req, res) {
   const { user } = req;
-  User.findById(user, (err, user) => {
-    const { displayName, email } = user;
-    updateUser({
-      userId: user._id,
-      lastLogin: Date.now()
+  User
+    .findById(user)
+    .populate('playerId')
+    .exec((err, user) => {
+      updateUser({
+        userId: user._id,
+        lastLogin: Date.now()
+      })
+      res.status(200).send({
+        message: 'Succes',
+        user: {
+          displayName: user.displayName,
+          email: user.email,
+          playerId: user.playerId
+        }
+      });
     })
-    res.status(200).send({
-      message: 'Tienes acceso', user: {
-        displayName,
-        email
-      }
-    });
-  })
 }
 
 function updateUser(data) {
