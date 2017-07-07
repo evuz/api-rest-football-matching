@@ -6,41 +6,47 @@ const { updateUser } = require('../controllers/user');
 function getPlayer(req, res) {
   let playerId = req.params.playerId;
 
-  PlayerModel.findById(playerId, (err, player) => {
-    if (err) return res.status(500).send({
-      error: {
-        status: 500,
-        message: err
-      }
-    });
-    if (!player) return res.status(404).send({
-      error: {
-        status: 404,
-        message: 'Player don\'t found'
-      }
-    });
+  PlayerModel
+    .findById(playerId)
+    .select('-userId')
+    .exec((err, player) => {
+      if (err) return res.status(500).send({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      if (!player) return res.status(404).send({
+        error: {
+          status: 404,
+          message: 'Player don\'t found'
+        }
+      });
 
-    res.status(200).send({ player });
-  });
+      res.status(200).send({ player });
+    });
 }
 
 function getPlayers(req, res) {
-  PlayerModel.find({}, (err, player) => {
-    if (err) return res.status(500).send({
-      error: {
-        status: 500,
-        message: err
-      }
-    });
-    if (!player) return res.status(404).send({
-      error: {
-        status: 404,
-        message: 'Player don\'t found'
-      }
-    });
+  PlayerModel
+    .find({})
+    .select('-userId')
+    .exec((err, player) => {
+      if (err) return res.status(500).send({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      if (!player) return res.status(404).send({
+        error: {
+          status: 404,
+          message: 'Player don\'t found'
+        }
+      });
 
-    res.status(200).send({ player });
-  });
+      res.status(200).send({ player });
+    });
 }
 
 function savePlayer(req, res) {
