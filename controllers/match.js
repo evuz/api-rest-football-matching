@@ -5,24 +5,34 @@ const { TeamModel } = require('../models/team');
 
 function getMatchs(req, res) {
   MatchModel.find({})
-  .populate('localTeam')
-  .populate('awayTeam')
-  .exec((err, matchs) => {
-    if (err) return res.status(500).send({
-      error: {
-        status: 500,
-        message: err
+    .populate({
+      path: 'localTeam',
+      populate: {
+        path: 'players'
       }
-    });
-    if (!matchs) return res.status(404).send({
-      error: {
-        status: 404,
-        message: 'Matchs don\'t found'
+    })
+    .populate({
+      path: 'awayTeam',
+      populate: {
+        path: 'players'
       }
-    });
+    })
+    .exec((err, matchs) => {
+      if (err) return res.status(500).send({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      if (!matchs) return res.status(404).send({
+        error: {
+          status: 404,
+          message: 'Matchs don\'t found'
+        }
+      });
 
-    res.status(200).send({ matchs });
-  });
+      res.status(200).send({ matchs });
+    });
 }
 
 function getMatch(req, res) {
