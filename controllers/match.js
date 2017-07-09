@@ -1,9 +1,13 @@
 'use strict'
 
 const { MatchModel } = require('../models/match');
+const { TeamModel } = require('../models/team');
 
 function getMatchs(req, res) {
-  MatchModel.find({}, (err, matchs) => {
+  MatchModel.find({})
+  .populate('localTeam')
+  .populate('awayTeam')
+  .exec((err, matchs) => {
     if (err) return res.status(500).send({
       error: {
         status: 500,
@@ -44,26 +48,53 @@ function getMatch(req, res) {
 
 function saveMatch(req, res) {
   const { body } = req;
-  let match = MatchModel({
-    name: body.name,
-    description: body.description,
-    city: body.city,
-    direction: body.direction,
-    price: body.price,
-    playersByTeam: body.playersByTeam,
-    localTeam: body.localTeam,
-    awayTeam: body.awayTeam
-  });
+  const teamsReady = [];
 
-  match.save((err, matchStored) => {
-    if (err) res.status(500).send({
-      error: {
-        status: 500,
-        message: err
-      }
+  teamsReady[0] = saveTeam(body.localTeam);
+  teamsReady[1] = saveTeam(body.awayTeam);
+
+  Promise.all(teamsReady)
+    .then(([localTeam, awayTeam]) => {
+      const match = MatchModel({
+        name: body.name,
+        description: body.description,
+        city: body.city,
+        direction: body.direction,
+        price: body.price,
+        playersByTeam: body.playersByTeam,
+        localTeam,
+        awayTeam
+      });
+
+      match.save((err, matchStored) => {
+        if (err) res.status(500).send({
+          error: {
+            status: 500,
+            message: err
+          }
+        })
+        res.status(200).send({ match: matchStored });
+      });
     })
-    res.status(200).send({ match: matchStored });
-  });
+}
+
+function saveTeam(team) {
+  return new Promise((resolve, reject) => {
+    if (team._id) {
+      resolve(team._id);
+    } else {
+      const newTeam = TeamModel({
+        tmp: team.tmp === undefined ? true : team.tmp,
+        name: team.name,
+        players: team.players
+      })
+
+      newTeam.save((err, teamStored) => {
+        if (err) reject(err);
+        resolve(teamStored._id);
+      })
+    }
+  })
 }
 
 function updateMatch(req, res) {

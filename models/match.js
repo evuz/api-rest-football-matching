@@ -3,8 +3,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const { TeamSchema } = require('./team');
-
 const MatchSchema = Schema({
   name: String,
   description: String,
@@ -13,8 +11,8 @@ const MatchSchema = Schema({
   direction: { type: String, require: true },
   price: { type: Number, default: 0 },
   playersByTeam: { type: Number, default: 5 },
-  localTeam: TeamSchema,
-  awayTeam: TeamSchema
+  localTeam: { type: Schema.ObjectId, ref: 'Team' },
+  awayTeam: { type: Schema.ObjectId, ref: 'Team' }
 });
 
 module.exports = {
