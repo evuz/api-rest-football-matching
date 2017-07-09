@@ -40,7 +40,7 @@ api.post('/team', TeamCtrl.saveTeam);
 api.put('/team/:teamId', TeamCtrl.updateTeam);
 api.delete('/team/:teamId/:playerId', TeamCtrl.removePlayer);
 api.put('/team/:teamId/:playerId', TeamCtrl.addPlayer);
-// api.put('/team/:teamId', TeamCtrl.updateTeam);
+api.put('/team/:teamId', TeamCtrl.updateTeam);
 api.delete('/team/:teamId', TeamCtrl.deleteTeam);
 
 // Routes for manage users
