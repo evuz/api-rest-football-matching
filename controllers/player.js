@@ -73,7 +73,7 @@ function savePlayer(req, res) {
       updateUser({
         userId: user,
         playerId: playerStored._id
-      }).then((userUpdated) => {
+      }).then(({ userUpdated }) => {
         res.status(200).send({
           user: userUpdated,
           player: playerStored
