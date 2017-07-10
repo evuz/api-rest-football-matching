@@ -66,8 +66,8 @@ function saveMatch(req, res) {
 
   Promise.all(teamsReady)
     .then(([localTeam, awayTeam]) => {
-      if(!localTeam.players) localTeam.players = [];
-      if(!awayTeam.players) awayTeam.players = [];
+      if (!localTeam.players) localTeam.players = [];
+      if (!awayTeam.players) awayTeam.players = [];
       const match = MatchModel({
         name: body.name,
         description: body.description,
@@ -87,10 +87,16 @@ function saveMatch(req, res) {
         })
         const request = [];
         localTeam.players.forEach((player, index) => {
-          request[index] = addMatch(player, matchStored._id);
+          request[index] = addMatch(player, matchStored._id)
+            .catch((err) => {
+              res.status(404).send(err);
+            });
         });
         awayTeam.players.forEach((player, index) => {
-          request[localTeam.players.length + index] = addMatch(player, matchStored._id);
+          request[localTeam.players.length + index] = addMatch(player, matchStored._id)
+            .catch(() => {
+              res.status(404).send(err);
+            });
         })
         Promise.all(request)
           .then(() => {
