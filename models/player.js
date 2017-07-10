@@ -7,6 +7,7 @@ const PlayerSchema = Schema({
   userId: { type: Schema.ObjectId, ref: 'User' },
   name: { type: String, require: true },
   description: String,
+  matchsPlayed: [{ type: Schema.ObjectId, ref: 'Match' }],
   image: String,
   city: String,
   favoritePosition: String,
