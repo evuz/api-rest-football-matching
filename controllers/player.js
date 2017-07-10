@@ -85,6 +85,61 @@ function savePlayer(req, res) {
   });
 }
 
+function addMatch(playerId, matchId) {
+  return new Promise((resolve, reject) => {
+    PlayerModel.findById(playerId, (err, player) => {
+      if (err) reject({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      if (!player.matchsPlayed) player.matchsPlayed = [];
+      player.matchsPlayed.push(matchId);
+      player.save((err, playerStored) => {
+        if (err) reject({
+          error: {
+            status: 500,
+            message: err
+          }
+        });
+        resolve({
+          player: playerStored
+        })
+      })
+    })
+  })
+}
+
+function removeMatch(playerId, matchId) {
+  return new Promise((resolve, reject) => {
+    PlayerModel.findById(playerId, (err, player) => {
+      if (err) reject({
+        error: {
+          status: 500,
+          message: err
+        }
+      });
+      if (!player.matchsPlayed) player.matchsPlayed = [];
+      const key = player.matchsPlayed.findIndex(match => match === matchId);
+      if (key > -1) {
+        player.matchsPlayed.splice(key, 1);
+        player.save((err, playerStored) => {
+          if (err) reject({
+            error: {
+              status: 500,
+              message: err
+            }
+          });
+          resolve({
+            player: playerStored
+          })
+        })
+      }
+    })
+  })
+}
+
 function updatePlayer(req, res) {
   let playerId = req.params.playerId;
   let updateProps = req.body;
@@ -132,5 +187,7 @@ module.exports = {
   getPlayers,
   savePlayer,
   updatePlayer,
+  addMatch,
+  removeMatch,
   deletePlayer
 }
