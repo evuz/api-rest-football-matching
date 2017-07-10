@@ -7,6 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint */**.js *.js",
+    "loadMocks": "node mocks",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jesus Gómez",
@@ -22,7 +23,8 @@
     "mongoose": "^4.11.1"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
-    "eslint": "^4.1.1"
+    "eslint": "^4.1.1",
+    "node-fetch": "^1.7.1",
+    "nodemon": "^1.11.0"
   }
 }

@@ -1,0 +1,32 @@
+{
+  "teams": [
+    {
+      "name": "RMA",
+      "players": [
+        "Jesús Gómez",
+        "Javier Gómez"
+      ]
+    },
+    {
+      "name": "FCB",
+      "players": [
+        "Felix Rodríguez",
+        "José Antonio Postigo"
+      ]
+    },
+    {
+      "name": "AT",
+      "players": [
+        "Ernesto Lazareno",
+        "Juan Fernández"
+      ]
+    },
+    {
+      "name": "OUT",
+      "players": [
+        "Ernesto Lazareno",
+        "Jesús Gómez"
+      ]
+    }
+  ]
+}

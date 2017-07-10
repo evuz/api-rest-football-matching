@@ -1,0 +1,46 @@
+{
+  "players": [
+    {
+      "name": "Jesús Gómez",
+      "description": "First Player",
+      "city": "Jerez de la Frontera",
+      "favoritePosition": "DFC",
+      "birthdate": "701218800000"
+    },
+    {
+      "name": "Javier Gómez",
+      "description": "Second Player",
+      "city": "Berlin",
+      "favoritePosition": "LTD",
+      "birthdate": "841615200000"
+    },
+    {
+      "name": "Felix Rodríguez",
+      "description": "Third Player",
+      "city": "Cádiz",
+      "favoritePosition": "DC",
+      "birthdate": "453938400000"
+    },
+    {
+      "name": "Ernesto Lazareno",
+      "description": "Fourth Player",
+      "city": "Sanlucar de Barrameda",
+      "favoritePosition": "MC",
+      "birthdate": "272066400000"
+    },
+    {
+      "name": "José Antonio Postigo",
+      "description": "Fifth Player",
+      "city": "Puerto de Santamaría",
+      "favoritePosition": "GK",
+      "birthdate": "487375200000"
+    },
+    {
+      "name": "Juan Fernández",
+      "description": "Sixth Player",
+      "city": "Algeciras",
+      "favoritePosition": "MCI",
+      "birthdate": "659401200000"
+    }
+  ]
+}
