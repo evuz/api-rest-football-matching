@@ -8,7 +8,7 @@ const TeamSchema = new Schema({
   creationDate: { type: Date, default: Date.now() },
   stars: { type: Number, default: 0 },
   tmp: { type: Boolean, default: false },
-  players: [{ type: Schema.ObjectId, ref: 'Player' }]
+  players: [{ type: Schema.ObjectId, ref: 'Player', default: [] }]
 });
 
 module.exports = {
