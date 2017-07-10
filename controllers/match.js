@@ -2,6 +2,7 @@
 
 const { MatchModel } = require('../models/match');
 const { TeamModel } = require('../models/team');
+const { addMatch } = require('./player');
 
 function getMatchs(req, res) {
   MatchModel.find({})
@@ -65,6 +66,8 @@ function saveMatch(req, res) {
 
   Promise.all(teamsReady)
     .then(([localTeam, awayTeam]) => {
+      if(!localTeam.players) localTeam.players = [];
+      if(!awayTeam.players) awayTeam.players = [];
       const match = MatchModel({
         name: body.name,
         description: body.description,
@@ -72,10 +75,9 @@ function saveMatch(req, res) {
         direction: body.direction,
         price: body.price,
         playersByTeam: body.playersByTeam,
-        localTeam,
-        awayTeam
+        localTeam: localTeam._id,
+        awayTeam: awayTeam._id
       });
-
       match.save((err, matchStored) => {
         if (err) res.status(500).send({
           error: {
@@ -83,7 +85,17 @@ function saveMatch(req, res) {
             message: err
           }
         })
-        res.status(200).send({ match: matchStored });
+        const request = [];
+        localTeam.players.forEach((player, index) => {
+          request[index] = addMatch(player, matchStored._id);
+        });
+        awayTeam.players.forEach((player, index) => {
+          request[localTeam.players.length + index] = addMatch(player, matchStored._id);
+        })
+        Promise.all(request)
+          .then(() => {
+            res.status(200).send({ match: matchStored });
+          })
       });
     })
 }
@@ -91,7 +103,7 @@ function saveMatch(req, res) {
 function saveTeam(team) {
   return new Promise((resolve, reject) => {
     if (team._id) {
-      resolve(team._id);
+      resolve(team);
     } else {
       const newTeam = TeamModel({
         tmp: team.tmp === undefined ? true : team.tmp,
@@ -101,7 +113,7 @@ function saveTeam(team) {
 
       newTeam.save((err, teamStored) => {
         if (err) reject(err);
-        resolve(teamStored._id);
+        resolve(teamStored);
       })
     }
   })
