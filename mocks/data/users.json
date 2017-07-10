@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "email": "jesus@mail.com",
+      "password": "jesus",
+      "displayName": "Jesus"
+    },
+    {
+      "email": "javier@mail.com",
+      "password": "javier",
+      "displayName": "Javier"
+    },
+    {
+      "email": "felix@mail.com",
+      "password": "felix",
+      "displayName": "Felix"
+    },
+    {
+      "email": "ernesto@mail.com",
+      "password": "ernesto",
+      "displayName": "Ernesto"
+    },
+    {
+      "email": "posti@mail.com",
+      "password": "pedro",
+      "displayName": "Pedro"
+    },
+    {
+      "email": "juan@mail.com",
+      "password": "juan",
+      "displayName": "Juan"
+    }
+  ]
+}
