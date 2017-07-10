@@ -9,6 +9,7 @@ function getPlayer(req, res) {
   PlayerModel
     .findById(playerId)
     .select('-userId')
+    .populate('matchsPlayed')
     .exec((err, player) => {
       if (err) return res.status(500).send({
         error: {
@@ -31,6 +32,7 @@ function getPlayers(req, res) {
   PlayerModel
     .find({})
     .select('-userId')
+    .populate('matchsPlayed')
     .exec((err, player) => {
       if (err) return res.status(500).send({
         error: {
@@ -92,6 +94,12 @@ function addMatch(playerId, matchId) {
         error: {
           status: 500,
           message: err
+        }
+      });
+      if (!player) return reject({
+        error: {
+          status: 404,
+          message: 'Player don\'t found'
         }
       });
       if (!player.matchsPlayed) player.matchsPlayed = [];
