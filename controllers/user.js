@@ -9,7 +9,8 @@ function signUp(req, res) {
     email,
     displayName,
     password
-  })
+  });
+  user.avatar = user.gravatar();
   user.save((err) => {
     if (err) return res.status(500).send({
       message: 'Error al crear el usuario',
@@ -19,6 +20,7 @@ function signUp(req, res) {
     return res.status(200).send({
       displayName,
       email,
+      avatar: user.avatar,
       token: tokenSrv.createToken(user)
     })
   });
@@ -52,6 +54,7 @@ function signIn(req, res) {
         user: {
           displayName: user.displayName,
           email: user.email,
+          avatar: user.avatar,
           playerId: user.playerId,
           token: tokenSrv.createToken(user)
         }
@@ -74,6 +77,7 @@ function validateToken(req, res) {
         user: {
           displayName: user.displayName,
           email: user.email,
+          avatar: user.avatar,
           playerId: user.playerId
         }
       });

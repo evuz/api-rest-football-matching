@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   playerId: { type: Schema.ObjectId, ref: 'Player' },
   email: { type: String, unique: true, lowercase: true },
   displayName: String,
-  avatar: String,
+  avatar: { type: String },
   password: String,
   signUpDate: { type: Date, default: Date.now() },
   lastLogin: Date
